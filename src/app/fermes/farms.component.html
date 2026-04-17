@@ -1,0 +1,96 @@
+<div class="farms-container">
+  <div class="farms-header">
+    <div class="header-title">
+      <h2>Gestion des Fermes</h2>
+      <p>Suivez et gérez les exploitations laitières affiliées à l'ANIPL</p>
+    </div>
+    <button class="btn-add" (click)="openModal()">
+      <span class="material-symbols-outlined">add_home</span>
+      Enregistrer une ferme
+    </button>
+  </div>
+
+  <div class="farms-card">
+    <div class="table-actions">
+      <div class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" placeholder="Rechercher une ferme ou un propriétaire...">
+      </div>
+      <div class="filters">
+        <select>
+          <option value="">Toutes les régions</option>
+          <option value="Dakar">Dakar</option>
+          <option value="Thiès">Thiès</option>
+          <option value="Saint-Louis">Saint-Louis</option>
+        </select>
+      </div>
+    </div>
+
+    <table class="farms-table">
+      <thead>
+        <tr>
+          <th>Ferme</th>
+          <th>Propriétaire</th>
+          <th>Région</th>
+          <th>Statut</th>
+          <th>Date de création</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (farm of farms(); track farm.name) {
+          <tr>
+            <td>
+              <div class="farm-info">
+                <span class="material-symbols-outlined farm-icon">agriculture</span>
+                <strong>{{ farm.name }}</strong>
+              </div>
+            </td>
+            <td>{{ farm.owner }}</td>
+            <td><span class="region-tag">{{ farm.region }}</span></td>
+            <td><span class="status-badge" [class]="farm.status.toLowerCase()">{{ farm.status }}</span></td>
+            <td>{{ farm.createdAt | date:'dd/MM/yyyy' }}</td>
+            <td class="actions">
+              <button class="icon-btn edit" title="Modifier"><span class="material-symbols-outlined">edit</span></button>
+              <button class="icon-btn view" title="Voir les animaux"><span class="material-symbols-outlined">pets</span></button>
+              <button class="icon-btn delete" title="Supprimer"><span class="material-symbols-outlined">delete</span></button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal Enregistrement -->
+@if (isModalOpen()) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Nouvelle Exploitation</h3>
+        <button class="close-btn" (click)="closeModal()">&times;</button>
+      </div>
+      <form class="farm-form" (submit)="onSubmit($event)">
+        <div class="form-group">
+          <label>Nom de la ferme</label>
+          <input type="text" name="name" [(ngModel)]="newFarm.name" placeholder="Ex: Ferme de la Vallée" required>
+        </div>
+        <div class="form-group">
+          <label>Propriétaire / Responsable</label>
+          <input type="text" name="owner" [(ngModel)]="newFarm.owner" placeholder="Nom complet" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Région</label>
+            <select name="region" [(ngModel)]="newFarm.region">
+              <option value="Dakar">Dakar</option>
+              <option value="Thiès">Thiès</option>
+              <option value="Saint-Louis">Saint-Louis</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn-submit">Créer l'exploitation</button>
+      </form>
+    </div>
+  </div>
+}

@@ -1,0 +1,83 @@
+<div class="section-title">
+  <h2>Vue d'ensemble</h2>
+  <select class="year-select"><option>2026</option></select>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card highlight">
+    <div class="stat-info">
+      <label>Bovin</label>
+      <div class="stat-value">12 000 000</div>
+    </div>
+    <div class="stat-icon"><span class="material-symbols-outlined">pets</span></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-info">
+      <label>Fermes</label>
+      <div class="stat-value">45 000</div>
+    </div>
+    <div class="stat-icon icon-bg-green"><span class="material-symbols-outlined">agriculture</span></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-info">
+      <label>Campagnes</label>
+      <div class="stat-value">120</div>
+    </div>
+    <div class="stat-icon icon-bg-yellow"><span class="material-symbols-outlined">event_available</span></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-info">
+      <label>Lait</label>
+      <div class="stat-value">102 000 l</div>
+    </div>
+    <div class="stat-icon icon-bg-blue"><span class="material-symbols-outlined">opacity</span></div>
+  </div>
+</div>
+
+<div class="map-container">
+  <div class="map-header">
+    <div class="map-title"><span class="material-symbols-outlined">location_on</span> Ma carte</div>
+    <div class="map-controls">
+      <input type="text" placeholder="Rechercher..." class="search-input">
+      <select (change)="updateStats($any($event.target).value)">
+        <option value="Dakar">Dakar</option>
+        <option value="Thiès">Thiès</option>
+        <option value="Saint-Louis">Saint-Louis</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="map-content">
+    <div class="map-results">
+      <div class="result-header">
+        <span class="result-icon material-symbols-outlined">query_stats</span>
+        <div class="result-text">
+          <strong>Résultat : {{ selectedRegion }}</strong>
+          <small>Données centralisées ANIPL</small>
+        </div>
+      </div>
+      <div class="result-item"><span class="dot blue"></span> Fermes <span>{{ stats.fermes | number }}</span></div>
+      <div class="result-item"><span class="dot green"></span> Éleveurs <span>{{ stats.eleveurs | number }}</span></div>
+      <div class="result-item"><span class="dot orange"></span> Animaux <span>{{ stats.animaux | number }}</span></div>
+    </div>
+
+    <div class="map-visual">
+      <svg viewBox="0 0 800 600" class="senegal-svg">
+        <!-- On simplifie les tracés pour l'exemple -->
+        <path d="M 20,280 L 40,270 L 55,290 L 35,305 Z" (click)="updateStats('Dakar')" (mouseenter)="onMouseEnter('Dakar')" (mouseleave)="onMouseLeave()" [class.active]="selectedRegion === 'Dakar'"></path>
+        <path d="M 40,270 L 110,230 L 135,300 L 55,290 Z" (click)="updateStats('Thiès')" (mouseenter)="onMouseEnter('Thiès')" (mouseleave)="onMouseLeave()" [class.active]="selectedRegion === 'Thiès'"></path>
+        <path d="M 110,230 L 280,40 L 480,100 L 380,260 L 135,300 Z" (click)="updateStats('Saint-Louis')" (mouseenter)="onMouseEnter('Saint-Louis')" (mouseleave)="onMouseLeave()" [class.active]="selectedRegion === 'Saint-Louis'"></path>
+        <!-- Tracé de bordure globale -->
+        <path d="M 20,280 L 280,40 L 680,150 L 780,350 L 780,550 L 380,580 L 110,500 L 20,280" fill="none" stroke="#ccc" stroke-width="1"></path>
+      </svg>
+
+      @if (hoveredRegion && hoveredStats) {
+        <div class="map-tooltip">
+          <strong>{{ hoveredRegion }}</strong><br>
+          <span>🚜 Fermes: {{ hoveredStats.fermes }}</span><br>
+          <span>🐄 Animaux: {{ hoveredStats.animaux }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</div>

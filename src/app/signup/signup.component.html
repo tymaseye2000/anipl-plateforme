@@ -1,0 +1,69 @@
+<div class="auth-container">
+  <div class="auth-form-side">
+    <div class="brand-logo">
+      <img src="/logo.png" alt="Logo ANIPL">
+      <span>ANIPL</span>
+    </div>
+
+    <div class="form-wrapper">
+      <h1>Rejoindre l'ANIPL</h1>
+      <p style="text-align: center; color: #666; margin-bottom: 20px;">Créez votre compte pour gérer vos troupeaux et participer aux campagnes.</p>
+
+      <form (submit)="onSignup()">
+        <div class="form-row" style="display: flex; gap: 15px; margin-bottom: 15px;">
+          <div class="input-group" style="flex: 1; margin-bottom: 0;">
+            <label>Prénom</label>
+            <input type="text" [(ngModel)]="user.firstName" name="firstName" placeholder="Prénom" required>
+          </div>
+          <div class="input-group" style="flex: 1; margin-bottom: 0;">
+            <label>Nom</label>
+            <input type="text" [(ngModel)]="user.lastName" name="lastName" placeholder="Nom" required>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Numéro de téléphone</label>
+          <input type="tel" [(ngModel)]="user.phone" name="phone" placeholder="+221 -- --- -- --" required>
+        </div>
+
+        <div class="input-group">
+          <label>Email (Optionnel)</label>
+          <input type="email" [(ngModel)]="user.email" name="email" placeholder="votre@email.com">
+        </div>
+
+        <div class="input-group">
+          <label>Nom de la Ferme / Exploitation</label>
+          <input type="text" [(ngModel)]="user.farmName" name="farmName" placeholder="Ex: Ferme de la Teranga">
+        </div>
+
+        <div class="input-group">
+          <label>Région</label>
+          <select [(ngModel)]="user.region" name="region" style="width: 100%; padding: 12px 15px; border: 1px solid #eee; border-radius: 8px; background: white; font-family: inherit;">
+            <option value="Dakar">Dakar</option>
+            <option value="Thiès">Thiès</option>
+            <option value="Saint-Louis">Saint-Louis</option>
+            <option value="Diourbel">Diourbel</option>
+            <option value="Louga">Louga</option>
+            <option value="Fatick">Fatick</option>
+            <option value="Kaolack">Kaolack</option>
+            <option value="Kolda">Kolda</option>
+            <option value="Ziguinchor">Ziguinchor</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>Mot de passe</label>
+          <input type="password" [(ngModel)]="user.password" name="password" placeholder="********" required>
+        </div>
+
+        <button type="submit" class="btn-primary">Créer mon compte</button>
+        
+        <p class="footer-text">
+          Déjà inscrit ? <a routerLink="/login">Connectez-vous ici</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <div class="auth-image-side"></div>
+</div>

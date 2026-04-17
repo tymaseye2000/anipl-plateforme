@@ -1,0 +1,72 @@
+$anipl-green: #00663d;
+$orange: #f39c12;
+
+.order-container {
+  background: #f4fbf8;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+  font-family: 'Poppins', sans-serif;
+
+  .order-card {
+    background: white;
+    width: 100%;
+    max-width: 600px;
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+
+    .order-header {
+      margin-bottom: 30px;
+      .back-link { color: $anipl-green; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+      h1 { color: $anipl-green; margin: 15px 0 5px; }
+      .campaign-title { color: #666; font-size: 1.1rem; }
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      label { display: block; margin-bottom: 8px; font-weight: 600; color: #444; }
+      input, textarea {
+        width: 100%; padding: 12px; border: 1px solid #eee; border-radius: 10px;
+        background: #fafafa; outline: none;
+        &:focus { border-color: $anipl-green; background: white; }
+      }
+      textarea { height: 100px; resize: none; }
+      .hint { color: #888; font-size: 0.8rem; margin-top: 5px; display: block; }
+    }
+
+    .payment-section {
+      margin: 30px 0;
+      h3 { font-size: 1rem; color: $anipl-green; margin-bottom: 15px; }
+      .payment-grid { display: grid; gap: 10px; }
+      .payment-option {
+        cursor: pointer;
+        input { display: none; }
+        .option-content {
+          display: block; padding: 15px; border: 1px solid #eee; border-radius: 12px; transition: 0.3s;
+        }
+        input:checked + .option-content {
+          border-color: $anipl-green; background: #e8f5e9; color: $anipl-green; font-weight: 600;
+        }
+      }
+    }
+
+    .summary-card {
+      background: #f9f9f9; padding: 20px; border-radius: 15px; margin-bottom: 30px;
+      .summary-line { 
+        display: flex; justify-content: space-between; margin-bottom: 10px; 
+        &.total { border-top: 1px solid #ddd; padding-top: 10px; font-weight: 800; font-size: 1.2rem; color: $anipl-green; }
+      }
+    }
+
+    .btn-confirm {
+      width: 100%; padding: 18px; background: $orange; color: white;
+      border: none; border-radius: 15px; font-weight: bold; font-size: 1.1rem;
+      cursor: pointer; transition: 0.3s;
+      &:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(243,156,18,0.3); }
+    }
+
+    .status-alert { padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; &.success { background: #e8f5e9; color: #2e7d32; } }
+  }
+}

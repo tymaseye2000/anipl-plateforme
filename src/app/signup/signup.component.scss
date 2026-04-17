@@ -1,0 +1,95 @@
+@use 'sass:color';
+$anipl-green: #00663d;
+$bg-light: #f4fbf8;
+
+.auth-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: $bg-light;
+  font-family: 'Poppins', sans-serif;
+
+  .auth-form-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 10%;
+    justify-content: center;
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      img { width: 40px; }
+      span { font-weight: bold; color: $anipl-green; }
+    }
+
+    .form-wrapper {
+      max-width: 500px;
+      margin: 0 auto;
+      width: 100%;
+
+      h1 { color: $anipl-green; margin-bottom: 12px; text-align: center; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; }
+
+      .input-group {
+        margin-bottom: 15px;
+        label { display: block; margin-bottom: 8px; font-size: 0.95rem; color: #2d3748; font-weight: 700; }
+        input {
+          width: 100%;
+          padding: 12px 15px;
+          border: 1px solid #eee;
+          border-radius: 8px;
+          background: white;
+          font-family: inherit;
+          outline: none;
+          &:focus { border-color: $anipl-green; }
+        }
+      }
+
+      .btn-primary {
+        width: 100%;
+        padding: 14px;
+        background: $anipl-green;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        margin-top: 15px;
+        cursor: pointer;
+        transition: 0.3s;
+        &:hover { background: color.adjust($anipl-green, $lightness: -5%); }
+      }
+
+      .footer-text { 
+        text-align: center; 
+        margin-top: 20px; 
+        font-size: 0.9rem;
+        color: #666;
+        a { 
+          color: $anipl-green; 
+          text-decoration: none; 
+          font-weight: 700;
+          &:hover { text-decoration: underline; }
+        } 
+      }
+    }
+  }
+
+  .auth-image-side {
+    flex: 1.2;
+    background: #e0eee0 url("/cow.png") no-repeat center center;
+    background-size: cover;
+    border-radius: 80px 0 0 80px;
+
+    @media (max-width: 992px) {
+      display: none;
+    }
+  }
+}
+
+.form-row {
+  @media (max-width: 576px) {
+    flex-direction: column;
+    gap: 0 !important;
+  }
+}

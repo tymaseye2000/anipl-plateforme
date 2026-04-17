@@ -1,0 +1,51 @@
+<div class="auth-container">
+  <div class="auth-form-side">
+    <div class="brand-logo" routerLink="/home" style="cursor: pointer">
+      <img src="/logo.png" alt="ANIPL">
+      <span>ANIPL</span>
+    </div>
+
+    <div class="form-wrapper">
+      <h1>Connexion</h1>
+      <p>La plateforme intelligente pour gérer les fermes et l'importation animale.</p>
+      
+      <form (ngSubmit)="onLogin()">
+        <div class="input-group">
+          <label>Email</label>
+          <input type="email" placeholder="support@anipl.sn">
+        </div>
+
+        <div class="input-group">
+          <label>Mot de passe</label>
+          <div class="password-wrapper">
+            <input [type]="showPassword ? 'text' : 'password'" placeholder="***************">
+            <span class="toggle-password" (click)="togglePassword()">
+              {{ showPassword ? '👁️' : '🙈' }}
+            </span>
+          </div>
+          <a href="#" class="forgot-link">Mot de passe oublié ?</a>
+        </div>
+
+        <button type="submit" class="btn-primary">Se connecter</button>
+
+        <div class="divider">
+          <span>OU</span>
+        </div>
+
+        <div class="social-buttons">
+          <button class="btn-social" type="button">
+            <img src="assets/images/google-icon.png" alt=""> Continuer avec Google
+          </button>
+          <button class="btn-social" type="button">
+            <img src="assets/images/facebook-icon.png" alt=""> Continuer avec Facebook
+          </button>
+        </div>
+
+        <p class="footer-text">
+          Pas de compte ? <a routerLink="/signup">Créer un compte</a>
+        </p>
+      </form>
+    </div>
+  </div>
+  <div class="auth-image-side"></div>
+</div>

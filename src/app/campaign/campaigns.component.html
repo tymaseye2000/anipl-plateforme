@@ -1,0 +1,150 @@
+<div class="campaigns-listing" *ngIf="!showMembershipForm">
+  <div class="page-header">
+    <div class="container">
+      <h1>Campagnes d'Importation</h1>
+      <p>Découvrez nos campagnes actuelles. Sélectionnez une race pour soumettre votre demande d'adhésion et réserver vos animaux.</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="importation-grid">
+      <div class="import-card" *ngFor="let campaign of campaigns">
+        <div class="card-img">
+          <img [src]="campaign.image_url || '/cow.png'" alt="Campagne ANIPL">
+        </div>
+        <div class="card-body">
+          <h3>{{ campaign.race?.name }}</h3>
+          <div class="info-content">
+            <span class="info-row"><strong>Espèce:</strong> {{ campaign.species.name }}</span>
+            <span class="info-row"><strong>Disponibles:</strong> {{ campaign.remaining_quantity }} têtes</span>
+          </div>
+          <p class="price">{{ campaign.unit_price | number }} FCFA</p>
+          <button class="btn-detail" (click)="selectCampaign(campaign)">Participer à la campagne</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="membership-container" *ngIf="showMembershipForm">
+  <button class="btn-back" (click)="showMembershipForm = false">← Retour aux campagnes</button>
+  
+  <div class="form-card">
+    <h2>Demande d'adhésion</h2>
+    <p class="subtitle">Importation Bovins - {{ selectedCampaign?.race?.name }}</p>
+
+    <div class="form-body">
+      <div class="personal-info-grid">
+        <div class="input-group">
+          <label>Prénom</label>
+          <input type="text" [(ngModel)]="order.firstName" name="firstName" placeholder="Ex: Moussa">
+        </div>
+        <div class="input-group">
+          <label>Nom</label>
+          <input type="text" [(ngModel)]="order.lastName" name="lastName" placeholder="Ex: Diop">
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Numéro de téléphone</label>
+        <input type="tel" [(ngModel)]="order.phone" name="phone" placeholder="+221 -- --- -- --">
+      </div>
+
+      <div class="input-group">
+        <label>Numéro CNI</label>
+        <input type="text" [(ngModel)]="order.cni" name="cni" placeholder="1 000 0000 00000">
+      </div>
+
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="order.email" name="email" placeholder="votre@email.com">
+      </div>
+
+      <hr class="separator">
+
+      <div class="input-group">
+        <label>Nombre de bovins souhaités</label>
+        <input type="number" [(ngModel)]="order.quantity" name="quantity" min="1">
+        <small>Stock disponible : {{ selectedCampaign?.remaining_quantity }} têtes</small>
+      </div>
+
+      <div class="input-group">
+        <label>Notes ou instructions particulières</label>
+        <textarea [(ngModel)]="order.notes" placeholder="Ex: Livraison prévue pour fin de mois..."></textarea>
+      </div>
+
+      <div class="payment-section">
+        <label>Mode de paiement</label>
+        <div class="payment-methods">
+          <div class="method" [class.selected]="order.paymentMethod === 'mobile'" (click)="order.paymentMethod = 'mobile'">
+            <span class="icon">📱</span> Mobile Money (Wave/Orange)
+          </div>
+          <div class="method" [class.selected]="order.paymentMethod === 'bank'" (click)="order.paymentMethod = 'bank'">
+            <span class="icon">🏦</span> Virement Bancaire
+          </div>
+          <div class="method" [class.selected]="order.paymentMethod === 'cash'" (click)="order.paymentMethod = 'cash'">
+            <span class="icon">💵</span> Espèces (Agence)
+          </div>
+        </div>
+      </div>
+
+      <div class="price-summary">
+        <div class="summary-line">
+          <span>Prix unitaire :</span>
+          <span>{{ (selectedCampaign?.unit_price || 0) | number }} FCFA</span>
+        </div>
+        <div class="summary-line total">
+          <span>Montant Total :</span>
+          <span class="total-amount">{{ totalAmount | number }} FCFA</span>
+        </div>
+      </div>
+
+      <button class="btn-submit" (click)="submitOrder()">Confirmer ma demande et payer</button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer-anipl">
+  <div class="footer-content">
+    <div class="footer-brand">
+      <img src="/logo.png" alt="Logo ANIPL" class="footer-logo">
+      <p class="brand-description">
+        L'ANIPL s'engage pour la souveraineté alimentaire du Sénégal à travers une filière lait forte et moderne.
+      </p>
+    </div>
+
+    <div class="footer-column">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a routerLink="/home">Accueil</a></li>
+        <li><a routerLink="/campagnes">Nos Campagnes</a></li>
+        <li>Actualités</li>
+        <li>À propos</li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h3>Aide & Support</h3>
+      <ul>
+        <li>FAQ</li>
+        <li>Contactez-nous</li>
+        <li>Mentions légales</li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h3>Contact</h3>
+      <ul>
+        <li>📍 Dakar, Sénégal</li>
+        <li>📞 +221 33 000 00 00</li>
+        <li>✉️ contact@anipl.sn</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-copyright">
+    <div class="container">
+      <p>&copy; 2026 ANIPL - Tous droits réservés. Design pour présentation académique.</p>
+    </div>
+  </div>
+</footer>

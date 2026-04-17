@@ -1,0 +1,86 @@
+<div class="users-container">
+  <div class="users-header">
+    <div class="header-title">
+      <h2>Gestion des Utilisateurs</h2>
+      <p>Administrez les accès et les rôles des membres de l'ANIPL</p>
+    </div>
+    <button class="btn-add" (click)="openModal()">
+      <span class="material-symbols-outlined">person_add</span>
+      Nouvel Utilisateur
+    </button>
+  </div>
+
+  <div class="users-card">
+    <div class="table-actions">
+      <div class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" placeholder="Rechercher un utilisateur...">
+      </div>
+    </div>
+
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th>Utilisateur</th>
+          <th>Rôle</th>
+          <th>Statut</th>
+          <th>Date d'ajout</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of users; track user.email) {
+          <tr>
+            <td>
+              <div class="user-info">
+                <div class="user-avatar">{{ user.name.charAt(0) }}</div>
+                <div class="user-details">
+                  <strong>{{ user.name }}</strong>
+                  <span>{{ user.email }}</span>
+                </div>
+              </div>
+            </td>
+            <td><span class="role-text">{{ user.role }}</span></td>
+            <td><span class="status-badge" [class]="user.status.toLowerCase()">{{ user.status }}</span></td>
+            <td>{{ user.dateAdded | date:'dd/MM/yyyy' }}</td>
+            <td class="actions">
+              <button class="icon-btn edit"><span class="material-symbols-outlined">edit</span></button>
+              <button class="icon-btn delete"><span class="material-symbols-outlined">delete</span></button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal Enregistrement -->
+@if (isModalOpen) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Ajouter un utilisateur</h3>
+        <button class="close-btn" (click)="closeModal()">&times;</button>
+      </div>
+      <form class="user-form" (submit)="onSubmit($event)">
+        <div class="form-group">
+          <label>Nom complet</label>
+          <input type="text" name="name" [(ngModel)]="newUser.name" placeholder="Ex: Fatou Sow" required>
+        </div>
+        <div class="form-group">
+          <label>Email professionnel</label>
+          <input type="email" name="email" [(ngModel)]="newUser.email" placeholder="fatou@anipl.sn" required>
+        </div>
+        <div class="form-group">
+          <label>Rôle</label>
+          <select name="role" [(ngModel)]="newUser.role">
+            <option value="Administrateur">Administrateur</option>
+            <option value="Éleveur">Éleveur</option>
+            <option value="Agent de Suivi">Agent de Suivi</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-submit">Enregistrer l'accès</button>
+      </form>
+    </div>
+  </div>
+}

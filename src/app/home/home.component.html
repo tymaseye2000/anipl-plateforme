@@ -1,0 +1,249 @@
+<div class="anipl-landing">
+  <header class="header">
+    <div class="header-container">
+      <div class="logo">
+        <img src="/logo.png" alt="Logo ANIPL">
+      </div>
+      <nav class="nav-menu">
+        <ul>
+          <li><a routerLink="/home" routerLinkActive="active">Accueil</a></li>
+          <li><a routerLink="/campagnes" routerLinkActive="active">Campagnes</a></li>
+          <li><a href="#stats">Statistiques</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li>
+            <button class="theme-btn" (click)="toggleTheme()" [title]="isDarkMode ? 'Mode clair' : 'Mode sombre'">{{ isDarkMode ? '☀️' : '🌙' }}</button>
+          </li>
+          <li><a routerLink="/login" class="btn-login-outline">Connexion</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>ANIPL</h1>
+      <p class="hero-description">Accompagner les éleveurs vers une modernisation durable et une performance accrue de l'élevage au Sénégal.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" routerLink="/campagnes">Explorer les campagnes</button>
+        <button class="btn-secondary" routerLink="/signup">Devenir membre</button>
+      </div>
+    </div>
+
+    <!-- Notification de Campagne -->
+    <div class="campaign-notif">
+      <div class="notif-badge">
+        <span class="status-dot"></span>
+        Campagne Active
+      </div>
+      <div class="notif-content">
+        <strong>Importation Bovins - Lot 4</strong>
+        <p>Race Jersey • <span class="price">Réservez maintenant</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-section" id="stats">
+    <div class="section-badge">Impact</div>
+    <h2>L'excellence au service de l'élevage</h2>
+    <div class="container stats-grid">
+      @for (s of stats; track s.label) {
+        <div class="stat-card">
+          <div class="stat-icon">
+            <span class="material-symbols-outlined">{{ s.icon }}</span>
+          </div>
+          <h3>{{ s.value }}</h3>
+          <h4>{{ s.label }}</h4>
+          <p>{{ s.desc }}</p>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="challenges-section">
+    <h2>Relever les défis du secteur</h2>
+    <div class="container challenges-grid">
+      @for (c of challenges; track c.id) {
+        <div class="challenge-card">
+          <div class="id-badge">{{ c.id }}</div>
+          <h4>{{ c.title }}</h4>
+          <p>{{ c.desc }}</p>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!--
+  <section class="features-section">
+    <h2>Nos Fonctionnalités Clés</h2>
+    <div class="container features-grid">
+      @for (f of features; track f.title) {
+        <div class="feature-card">
+          <div class="feature-icon">
+            <span class="material-symbols-outlined">{{ f.icon }}</span>
+          </div>
+          <h4>{{ f.title }}</h4>
+          <p>{{ f.desc }}</p>
+        </div>
+      }
+    </div>
+  </section>
+  -->
+
+  <section class="importation-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="title-green">Nos Campagnes</h2>
+      </div>
+
+      <div class="importation-grid">
+        <div *ngFor="let item of importations.slice(0, 6)" class="import-card">
+          <div class="card-img">
+            <img [src]="item.image_url" alt="Bovins">
+          </div>
+          <div class="card-body">
+            <h3>{{ item.title }}</h3>
+            <div class="info-grid">
+              <div class="info-item">Espèces : <span>{{ item.species.name }}</span></div>
+              <div class="info-item">Race : <span>{{ item.race?.name }}</span></div>
+              <div class="info-item">Nombre restant : <span>{{ item.remaining_quantity }}</span></div>
+              <div class="info-item">Prix : <span>{{ item.unit_price | number }} CFA</span></div>
+              <div class="info-item">Date Limite : <span>{{ item.deadline_at | date:'dd MMMM yyyy' }}</span></div>
+            </div>
+            <button class="btn-detail-green" (click)="showAnimalDescription(item)">Détail</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="view-more-container">
+        <button class="btn-view-more" routerLink="/campagnes">Voir plus</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials-section">
+    <div class="container">
+      <h2>Ce que disent les utilisateurs de ANIPL</h2>
+      <p class="subtitle">Des gestionnaires de fermes, éleveurs et responsables d'importation utilisent déjà Anipl pour améliorer leur organisation.</p>
+
+      <div class="testimonials-grid">
+        <div *ngFor="let t of testimonials" class="testimonial-card">
+          <div class="user-photo">
+            <img *ngIf="t.image" [src]="t.image" [alt]="t.name">
+            <span *ngIf="!t.image" class="default-icon">{{ t.icon }}</span>
+          </div>
+          <div class="card-content">
+            <h4 class="user-name">{{ t.name }}, {{ t.role }}</h4>
+            <div class="quote-icon">““</div>
+            <p class="quote-text">{{ t.quote }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pagination-dots">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot active"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <h2 class="faq-title">Foire aux questions</h2>
+      <div class="faq-flex-container">
+        <div class="faq-block">
+          <div class="faq-list">
+            <div *ngFor="let f of faqs" class="faq-item">
+              <div class="faq-question">?</div>
+              <h4>{{ f.question }}</h4>
+              <p>{{ f.answer }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-block">
+          <div class="faq-contact-card">
+            <h3>Une autre question ?</h3>
+            <p>Posez-la nous directement via ce formulaire.</p>
+            <form (submit)="$event.preventDefault(); onContactSubmit()">
+              <input type="text" placeholder="Votre nom complet">
+              <input type="email" placeholder="votre@email.com">
+              <input type="text" placeholder="Sujet de votre demande">
+              <textarea placeholder="Votre message ou votre question spécifique..."></textarea>
+              <button type="submit" class="btn-submit-question">Envoyer ma question</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer-anipl">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="/logo.png" alt="Logo ANIPL" class="footer-logo">
+        <p class="brand-description">
+          L'ANIPL s'engage pour la souveraineté alimentaire du Sénégal à travers une filière lait forte et moderne.
+        </p>
+      </div>
+
+      <div class="footer-column">
+        <h3>Navigation</h3>
+        <ul>
+          <li><a routerLink="/home">Accueil</a></li>
+          <li><a routerLink="/campagnes">Nos Campagnes</a></li>
+          <li>Actualités</li>
+          <li>À propos</li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Aide & Support</h3>
+        <ul>
+          <li>FAQ</li>
+          <li>Contactez-nous</li>
+          <li>Mentions légales</li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Contact</h3>
+        <ul>
+          <li>📍 Dakar, Sénégal</li>
+          <li>📞 +221 33 000 00 00</li>
+          <li>✉️ contact@anipl.sn</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-copyright">
+      <div class="container">
+        <p>&copy; 2026 ANIPL - Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal pour les détails de l'animal -->
+  @if (selectedAnimal) {
+  <div class="animal-modal-overlay" (click)="closeDetail()">
+    <div class="animal-modal-card animate-in" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Détails de la race</h3>
+        <button class="close-btn" (click)="closeDetail()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-title">{{ selectedAnimal.title }}</div>
+        <img [src]="selectedAnimal.image_url" alt="Animal Image">
+        <div class="modal-info">
+          <p><strong>Origine :</strong> France</p>
+          <p><strong>Prix :</strong> {{ selectedAnimal.unit_price | number }} FCFA</p>
+          <div class="description-box">
+            <p>{{ selectedAnimal.description }}</p>
+          </div>
+          <button class="btn-primary w-100" style="margin-top: 20px;" [routerLink]="['/campagnes']" (click)="closeDetail()">Commander maintenant</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>

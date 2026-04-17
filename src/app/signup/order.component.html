@@ -1,0 +1,63 @@
+<div class="order-container" *ngIf="campaign">
+  <div class="order-card">
+    <header class="order-header">
+      <a [routerLink]="['/campagnes', campaign.slug]" class="back-link">← Retour</a>
+      <h1>Demande d'adhésion</h1>
+      <p class="campaign-title">{{ campaign.title }}</p>
+    </header>
+
+    <div *ngIf="statusMessage" [ngClass]="['status-alert', statusMessage.type]">
+      {{ statusMessage.text }}
+    </div>
+
+    <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Nombre de bovins souhaités</label>
+        <input type="number" formControlName="quantity" min="1" [max]="campaign.remaining_quantity">
+        <small class="hint">Stock disponible : {{ campaign.remaining_quantity }} têtes</small>
+      </div>
+
+      <div class="form-group">
+        <label>Notes ou instructions particulières</label>
+        <textarea formControlName="notes" placeholder="Ex: Livraison prévue pour fin de mois..."></textarea>
+      </div>
+
+      <div class="payment-section">
+        <h3>Mode de paiement</h3>
+        <div class="payment-grid">
+          <label class="payment-option">
+            <input type="radio" formControlName="paymentMethod" value="mobile_money">
+            <span class="option-content">📲 Mobile Money (Wave/Orange)</span>
+          </label>
+          <label class="payment-option">
+            <input type="radio" formControlName="paymentMethod" value="bank_transfer">
+            <span class="option-content">🏦 Virement Bancaire</span>
+          </label>
+          <label class="payment-option">
+            <input type="radio" formControlName="paymentMethod" value="cash">
+            <span class="option-content">💵 Espèces (Agence)</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="summary-line">
+          <span>Prix unitaire :</span>
+          <span>{{ campaign.unit_price | number }} FCFA</span>
+        </div>
+        <div class="summary-line total">
+          <span>Montant Total :</span>
+          <span>{{ totalAmount | number }} FCFA</span>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-confirm" [disabled]="orderForm.invalid">
+        Confirmer ma demande et payer
+      </button>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="!campaign" class="loading">
+  Chargement de la campagne...
+</div>
