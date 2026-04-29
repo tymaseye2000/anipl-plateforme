@@ -242,6 +242,15 @@
           padding: 25px;
           border-radius: var(--radius-md);
           border: 1px solid color.adjust(#ecfdf5, $lightness: -5%);
+          max-height: 550px; // Limite la hauteur pour éviter que la page ne s'allonge trop
+          overflow-y: auto; // Ajoute un scroll si la liste dépasse
+
+          &::-webkit-scrollbar { width: 6px; }
+          &::-webkit-scrollbar-track { background: transparent; }
+          &::-webkit-scrollbar-thumb { 
+            background: color.adjust(#ecfdf5, $lightness: -15%); 
+            border-radius: 10px; 
+          }
 
           .result-header {
             display: flex; align-items: center; gap: 10px; margin-bottom: 25px;
@@ -290,8 +299,8 @@
           .senegal-svg {
             filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.05));
             path {
-              stroke: #83d87b; // Bordures blanches nettes entre les régions
-              stroke-width: 1.2;
+              stroke: var(--primary-dark);
+              stroke-width: 0.4; // Très fin pour un aspect "collé"
               transition: var(--transition-base);
               &:hover {
                 fill: var(--primary) !important;

@@ -17,9 +17,9 @@ $shadow-strong: 0 20px 50px rgba(0, 43, 24, 0.12);
   position: absolute; 
   top: 0; 
   left: 0; 
-  width: 100%; 
+  width: 100%;
   min-height: 100vh;
-  background: #f9fbf9; 
+  background: #c2dad2; // Rendu plus sombre comme demandé
   z-index: 1000; // S'affiche au-dessus de la sidebar du layout
   overflow-y: auto;
 }
