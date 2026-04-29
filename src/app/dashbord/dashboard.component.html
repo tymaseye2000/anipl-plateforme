@@ -97,7 +97,7 @@
 
               <!-- Infobulle flottante -->
               @if (hoveredRegion() && hoveredStats()) {
-                <div class="map-tooltip" [style.left.px]="mouseX" [style.top.px]="mouseY">
+                <div class="map-tooltip" [style.left.px]="mouseX()" [style.top.px]="mouseY()">
                   <div class="tooltip-header">{{ hoveredRegion() }}</div>
                   <div class="tooltip-content">
                     <div class="tooltip-stat">

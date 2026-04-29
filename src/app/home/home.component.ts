@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, inject, PLATFORM_ID, ElementRef, AfterViewInit } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Campaign, CampaignService } from '../campaign/campaign.service';
@@ -17,9 +17,10 @@ interface HomeStat {
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   private platformId = inject(PLATFORM_ID);
   private campaignService = inject(CampaignService);
+  private el = inject(ElementRef);
 
   isDarkMode = false;
 
@@ -77,6 +78,21 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  ngAfterViewInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          const grid = this.el.nativeElement.querySelector('.features-grid');
+          if (grid) grid.classList.add('animate');
+          observer.disconnect(); // On arrête d'observer une fois l'animation lancée
+        }
+      }, { threshold: 0.15 });
+
+      const section = this.el.nativeElement.querySelector('.features-section');
+      if (section) observer.observe(section);
+    }
+  }
 
   onContactSubmit(): void {
     console.log('Question envoyée !');

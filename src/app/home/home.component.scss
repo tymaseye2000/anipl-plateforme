@@ -206,10 +206,10 @@ $orange: #f39c12;
       .status-dot {
         width: 8px;
         height: 8px;
-        background-color: #00ff88;
+        background-color: #427a60;
         border-radius: 50%;
         display: inline-block;
-        box-shadow: 0 0 10px #00ff88;
+        box-shadow: 0 0 10px #4ee69f;
         animation: pulse-green 2s infinite;
       }
     }
@@ -281,23 +281,46 @@ $orange: #f39c12;
     letter-spacing: 0.05em;
   }
 
+  .features-section {
+    background-color: #c2c7c4; // Un vert menthe frais et moderne
+  }
+
   .challenges-section, .testimonials-section {
     background-color: rgba(0, 102, 61, 0.07); // Un peu plus sombre pour marquer la séparation sur le fond foncé
   }
 
   .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-  .stats-grid, .challenges-grid, .features-grid {
+  .stats-grid, .challenges-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+
+    // Préparation de l'animation
+    .feature-card {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    &.animate .feature-card {
+      animation: fadeInUp 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+      @for $i from 1 through 6 {
+        &:nth-child(#{$i}) { animation-delay: #{$i * 0.1}s; }
+      }
+    }
 
     @media (max-width: 600px) {
       grid-template-columns: 1fr;
     }
   }
 
-  .stat-card, .feature-card, .challenge-card, .testimonial-card {
+  .stat-card, .challenge-card, .testimonial-card {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -308,15 +331,48 @@ $orange: #f39c12;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     transition: 0.3s ease;
     border: 1px solid rgba(0, 102, 61, 0.1); // Bordure verte très fine
+  }
+
+  .feature-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 45px 30px;
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0, 67, 38, 0.04);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: 1px solid rgba(0, 102, 61, 0.06);
+    position: relative;
+    overflow: hidden;
+
+    // Petite ligne décorative en haut
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, $anipl-green, $anipl-light-green);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
 
     &:hover {
-      transform: translateY(-5px);
-      border-color: $anipl-light-green;
+      transform: translateY(-12px);
+      box-shadow: 0 20px 50px rgba(0, 67, 38, 0.12);
+      border-color: transparent;
+      
+      &::before {
+        opacity: 1;
+      }
     }
 
     h3 { font-size: 2.4rem; font-weight: 800; color: $anipl-green; margin-bottom: 10px; letter-spacing: -0.02em; }
-    h4 { font-size: 1.35rem; font-weight: 700; color: #1a1a1a; margin-bottom: 15px; letter-spacing: -0.01em; }
-    p { font-size: 1rem; color: #444; line-height: 1.6; font-weight: 400; }
+    h4 { font-size: 1.5rem; font-weight: 700; color: $anipl-green; margin-bottom: 15px; letter-spacing: -0.01em; } // Couleur déjà bonne
+    p { font-size: 1.05rem; color: #333; line-height: 1.6; font-weight: 500; } // Rendu plus visible
     .user-name { font-size: 1.15rem; font-weight: 700; color: $anipl-green; letter-spacing: -0.01em; }
     .quote-text { font-style: italic; font-size: 1.05rem; color: #444; line-height: 1.8; }
   }
@@ -325,14 +381,16 @@ $orange: #f39c12;
     width: 80px;
     height: 80px;
     background: $anipl-light-bg;
-    border-radius: 20px;
+    border-radius: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
-    color: $anipl-green;
-    transition: 0.3s;
-
+    color: $anipl-light-green;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 25px rgba(0, 102, 61, 0.08);
+    border: 1px solid rgba(0, 102, 61, 0.05);
+    
     .material-symbols-outlined {
       font-size: 2.8rem;
     }
@@ -341,7 +399,15 @@ $orange: #f39c12;
   .feature-card:hover .feature-icon {
     background: $anipl-green;
     color: white;
-    transform: scale(1.1);
+    transform: scale(1.1) rotate(5deg);
+    // Effet néon : accumulation d'ombres portées vibrantes
+    box-shadow: 
+      0 0 15px color.adjust($anipl-light-green, $alpha: -0.2),
+      0 0 30px color.adjust($anipl-light-green, $alpha: -0.5);
+
+    .material-symbols-outlined {
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.7); // Halo lumineux sur le symbole lui-même
+    }
   }
 
   .stat-icon {
@@ -623,6 +689,122 @@ $orange: #f39c12;
     }
   }
 
+  .faq-section {
+    background-color: #f9fbf9;
+
+    .faq-flex-container { 
+      display: flex; 
+      gap: 50px; 
+      flex-wrap: wrap; 
+    }
+
+    .faq-block { 
+      flex: 1.5; 
+      min-width: 300px; 
+
+      .faq-list {
+        display: grid;
+        gap: 20px;
+      }
+
+      .faq-item {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.02);
+        display: flex;
+        gap: 20px;
+        transition: 0.3s;
+        border: 1px solid rgba(0, 102, 61, 0.1); // Bordure verte très fine
+
+        &:hover {
+          transform: translateX(10px);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+          border-color: $anipl-light-green;
+        }
+
+        .faq-question {
+          background: $anipl-light-green;
+          color: white;
+          width: 40px;
+          height: 40px;
+          min-width: 40px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          font-size: 1.2rem;
+          transition: all 0.3s ease;
+        }
+
+        h4 { color: $anipl-green; margin: 0 0 10px 0; font-size: 1.1rem; }
+        p { color: #444; margin: 0; line-height: 1.6; font-size: 0.95rem; }
+      }
+
+      .faq-item:hover .faq-question {
+        background: $anipl-green;
+        transform: scale(1.1);
+      }
+    }
+
+    .form-block { 
+      flex: 1; 
+      min-width: 300px; 
+
+      .faq-contact-card {
+        background: white;
+        padding: 40px;
+        border-radius: 25px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(0, 102, 61, 0.1); // Bordure verte très fine
+        border-top: 5px solid $anipl-green;
+
+        h3 { color: $anipl-green; font-size: 1.5rem; margin-bottom: 10px; }
+        p { color: #444; margin-bottom: 30px; }
+
+        form {
+          display: grid;
+          gap: 15px;
+
+          input, textarea {
+            padding: 12px 20px;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            background: #fdfdfd;
+            font-family: inherit;
+            outline: none;
+            transition: 0.3s;
+
+            &:focus {
+              border-color: $anipl-green;
+              background: white;
+              box-shadow: 0 0 0 4px rgba(0, 102, 61, 0.05);
+            }
+          }
+
+          textarea { height: 120px; resize: none; }
+          
+          .btn-submit-question { 
+            width: 100%; 
+            margin-top: 10px;
+            background: $anipl-green;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            &:hover { background: color.adjust($anipl-green, $lightness: -5%); transform: translateY(-2px); }
+            &:active { transform: translateY(0); }
+          }
+        }
+      }
+    }
+  }
+
   .footer-anipl {
     background: #0f2b18;
     color: white;
@@ -682,13 +864,17 @@ $orange: #f39c12;
   z-index: 1000;
 
   .animal-modal-card {
-    background: white;
+    background: white; // Default for light theme
     padding: 30px;
     border-radius: 25px;
     width: 90%;
     max-width: 500px;
     position: relative;
     border: 1px solid rgba(0, 102, 61, 0.1); // Bordure verte très fine
+    
+    .modal-header h3 { color: $anipl-green; margin: 0; }
+    .modal-body .modal-title { color: #333; }
+    .modal-body .description-box p { color: #555; }
     
     .modal-header {
       display: flex;
@@ -720,14 +906,52 @@ $orange: #f39c12;
 }
 
 .dark-theme {
-  background-color: #1a1a1a;
-  color: #f4fbf8;
-  .header, .import-card, .faq-item, .animal-modal-card { background: #2d2d2d; color: white; }
-  .hero-description, .info-row { color: #ccc; }
+  background-color: #1a1a1a; // Dark background for the body
+  color: #f4fbf8; // Light text color for general elements
+
+  .header, .import-card, .faq-item, .animal-modal-card, .feature-card { background: #2d2d2d; color: white; } // Dark background for specific components
+  .hero-description, .info-row, .modal-body .description-box p, .faq-section .subtitle { color: #ccc; } // Light gray for descriptions
+  
+  // Specific text colors for feature cards in dark mode
+  .feature-card h4 { color: $anipl-light-green; } // Lighter green for titles
+  .feature-card p { color: #ccc; } // Light gray for descriptions
+
+  // Specific text colors for FAQ section in dark mode
+  .faq-section {
+    background-color: #222; // Darker background for the section itself
+
+    .faq-item {
+      background: #2d2d2d;
+      border-color: rgba(255, 255, 255, 0.1);
+      h4 { color: $anipl-light-green; }
+      p { color: #ccc; }
+    }
+
+    .faq-contact-card {
+      background: #2d2d2d;
+      border-color: rgba(255, 255, 255, 0.1);
+      border-top-color: $anipl-light-green;
+      h3 { color: $anipl-light-green; }
+      p { color: #ccc; }
+      input, textarea { background: #3a3a3a; border-color: #555; color: #eee; }
+      input:focus, textarea:focus { border-color: $anipl-light-green; background: #4a4a4a; box-shadow: 0 0 0 4px rgba(0, 177, 103, 0.15); }
+    }
+  }
 }
 
 @keyframes float {
   0% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
   100% { transform: translateY(0px); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

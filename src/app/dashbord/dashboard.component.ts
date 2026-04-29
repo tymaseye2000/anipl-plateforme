@@ -21,6 +21,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   protected selectedRegion = signal('Dakar');
   protected stats = signal<RegionStats>({ fermes: 0, eleveurs: 0, animaux: 0 });
   protected hoveredRegion = signal<string | null>(null);
+  protected mouseX = signal(0);
+  protected mouseY = signal(0);
   protected hoveredStats = signal<RegionStats | null>(null);
 
   ngOnInit(): void {
@@ -53,5 +55,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   protected onMouseLeave(): void {
     this.hoveredRegion.set(null);
     this.hoveredStats.set(null);
+  }
+
+  protected trackMouse(event: MouseEvent): void {
+    this.mouseX.set(event.offsetX);
+    this.mouseY.set(event.offsetY);
   }
 }

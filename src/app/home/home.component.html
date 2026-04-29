@@ -47,7 +47,7 @@
     </div>
   </section>
 
-  <!--
+  
   <section class="features-section">
     <h2>Nos Fonctionnalités Clés</h2>
     <div class="container features-grid">
@@ -62,7 +62,7 @@
       }
     </div>
   </section>
-  -->
+  
 
   <section class="importation-section">
     <div class="container">
@@ -116,6 +116,62 @@
         <span class="dot"></span>
         <span class="dot"></span>
         <span class="dot active"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Foire Aux Questions (FAQ) -->
+  <section class="faq-section">
+    <div class="container">
+      <h2 class="section-title">Foire Aux Questions</h2>
+      <p class="subtitle">Vous avez des questions ? Nous avons les réponses !</p>
+
+      <div class="faq-flex-container">
+        <div class="faq-block">
+          <div class="faq-list">
+            <div class="faq-item">
+              <div class="faq-question">1</div>
+              <div>
+                <h4>Comment puis-je m'inscrire à une campagne d'importation ?</h4>
+                <p>Pour vous inscrire, rendez-vous sur la page "Campagnes", choisissez la campagne qui vous intéresse et remplissez le formulaire d'adhésion.</p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question">2</div>
+              <div>
+                <h4>Quels sont les modes de paiement acceptés ?</h4>
+                <p>Nous acceptons les virements bancaires et les solutions de Mobile Money locales pour faciliter vos transactions.</p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question">3</div>
+              <div>
+                <h4>Comment suivre l'état de ma commande ?</h4>
+                <p>Une fois connecté, vous pouvez suivre l'évolution de vos demandes et de vos lots directement depuis votre tableau de bord personnel.</p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question">4</div>
+              <div>
+                <h4>Anipl propose-t-il un support technique ?</h4>
+                <p>Oui, notre équipe est disponible pour vous accompagner dans l'utilisation de la plateforme et répondre à vos besoins sanitaires.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-block">
+          <div class="faq-contact-card">
+            <h3>Vous avez d'autres questions ?</h3>
+            <p>N'hésitez pas à nous contacter directement. Notre équipe vous répondra dans les plus brefs délais.</p>
+            <form (ngSubmit)="onContactSubmit()">
+              <div class="input-group"><input type="text" placeholder="Nom complet" required></div>
+              <div class="input-group"><input type="email" placeholder="Adresse email" required></div>
+              <div class="input-group"><textarea placeholder="Votre question..."></textarea></div>
+              <button type="submit" class="btn-submit-question">Envoyer votre question</button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   </section>
