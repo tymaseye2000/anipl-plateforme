@@ -1,5 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CampaignService, Campaign } from './campaign.service';
@@ -14,6 +14,16 @@ import { CampaignService, Campaign } from './campaign.service';
 export class CampaignsComponent implements OnInit {
   private campaignService = inject(CampaignService);
   private route = inject(ActivatedRoute);
+  private platformId = inject(PLATFORM_ID);
+
+  isDarkMode = false;
+
+  toggleTheme(): void {
+    this.isDarkMode = !this.isDarkMode;
+    if (isPlatformBrowser(this.platformId)) {
+      document.body.classList.toggle('dark-theme', this.isDarkMode);
+    }
+  }
 
   // Liste des races de bovins (9 au total après ajout)
   campaigns: Campaign[] = [];
@@ -21,6 +31,7 @@ export class CampaignsComponent implements OnInit {
   // Gestion de l'affichage du formulaire
   selectedCampaign: Campaign | null = null;
   showMembershipForm = false;
+  currentDate: Date = new Date();
 
   // Modèle de données pour la demande d'adhésion
   order = {
@@ -40,7 +51,10 @@ export class CampaignsComponent implements OnInit {
 
     // Vérifie si on doit afficher le formulaire d'adhésion directement
     if (this.route.snapshot.data['view'] === 'membership') {
-      if (this.campaigns.length > 0) {
+      const id = this.route.snapshot.paramMap.get('id');
+      if (id) {
+        this.selectedCampaign = this.campaignService.getCampaignById(id) || null;
+      } else if (this.campaigns.length > 0) {
         this.selectedCampaign = this.campaigns[0];
       }
       this.showMembershipForm = true;

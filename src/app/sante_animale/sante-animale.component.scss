@@ -1,0 +1,52 @@
+@use 'sass:color';
+@import '../commandes/commandes.component.scss';
+
+.type-badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  
+  &.vaccination { background: #e0f2fe; color: #0369a1; }
+  &.traitement { background: #fef3c7; color: #92400e; }
+  &.examen { background: #dcfce7; color: #166534; }
+  &.urgence { background: #fee2e2; color: #991b1b; }
+}
+
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fb923c;
+  margin-right: 5px;
+  
+  &.done { background: #22c55e; }
+}
+
+.animal-tag {
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-weight: 600;
+  color: #475569;
+}
+
+.admin-form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  min-height: 100px;
+  font-family: inherit;
+  outline: none;
+  &:focus { border-color: #00663d; }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}

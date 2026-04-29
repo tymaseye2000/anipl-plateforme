@@ -1,0 +1,7 @@
+export const apiConfig = {
+  baseUrl: '/api',
+  endpoints: {
+    login: '/login',
+    signup: '/signup'
+  }
+};

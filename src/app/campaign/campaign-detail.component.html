@@ -1,0 +1,33 @@
+<div class="detail-container" *ngIf="campaign">
+  <div class="back-nav">
+    <a routerLink="/home">← Retour à l'accueil</a>
+  </div>
+
+  <div class="campaign-detail-card">
+    <div class="image-side">
+      <img [src]="campaign.image_url" [alt]="campaign.title">
+    </div>
+    
+    <div class="info-side">
+      <span class="badge">{{ campaign.species.name }}</span>
+      <h1>{{ campaign.title }}</h1>
+      <p class="subtitle">{{ campaign.subtitle }}</p>
+      
+      <div class="stats-box">
+        <div class="stat"><strong>Race:</strong> {{ campaign.race?.name }}</div>
+        <div class="stat"><strong>Origine:</strong> {{ campaign.country?.name }}</div>
+        <div class="stat"><strong>Prix:</strong> {{ campaign.unit_price | number }} CFA</div>
+        <div class="stat"><strong>Restant:</strong> {{ campaign.remaining_quantity }} / {{ campaign.available_quantity }}</div>
+      </div>
+
+      <div class="description">
+        <h3>Description</h3>
+        <p>{{ campaign.description }}</p>
+      </div>
+
+      <div class="actions">
+        <button class="btn-primary" [routerLink]="['/campagnes', campaign.id, 'commander']">Commander maintenant</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,13 +3,12 @@
     <div class="header-container">
       <div class="logo">
         <img src="/logo.png" alt="Logo ANIPL">
+        <span class="logo-text">ANIPL</span>
       </div>
       <nav class="nav-menu">
         <ul>
           <li><a routerLink="/home" routerLinkActive="active">Accueil</a></li>
           <li><a routerLink="/campagnes" routerLinkActive="active">Campagnes</a></li>
-          <li><a href="#stats">Statistiques</a></li>
-          <li><a href="#faq">FAQ</a></li>
           <li>
             <button class="theme-btn" (click)="toggleTheme()" [title]="isDarkMode ? 'Mode clair' : 'Mode sombre'">{{ isDarkMode ? '☀️' : '🌙' }}</button>
           </li>
@@ -36,39 +35,15 @@
         Campagne Active
       </div>
       <div class="notif-content">
-        <strong>Importation Bovins - Lot 4</strong>
-        <p>Race Jersey • <span class="price">Réservez maintenant</span></p>
-      </div>
-    </div>
-  </section>
-
-  <section class="stats-section" id="stats">
-    <div class="section-badge">Impact</div>
-    <h2>L'excellence au service de l'élevage</h2>
-    <div class="container stats-grid">
-      @for (s of stats; track s.label) {
-        <div class="stat-card">
-          <div class="stat-icon">
-            <span class="material-symbols-outlined">{{ s.icon }}</span>
+        <div class="notif-main">
+          <span class="material-symbols-outlined icon-main">campaign</span>
+          <div>
+            <strong>Importation Bovins - Lot 4</strong>
+            <p>Race Jersey • <span class="highlight">Derniers lots</span></p>
           </div>
-          <h3>{{ s.value }}</h3>
-          <h4>{{ s.label }}</h4>
-          <p>{{ s.desc }}</p>
         </div>
-      }
-    </div>
-  </section>
-
-  <section class="challenges-section">
-    <h2>Relever les défis du secteur</h2>
-    <div class="container challenges-grid">
-      @for (c of challenges; track c.id) {
-        <div class="challenge-card">
-          <div class="id-badge">{{ c.id }}</div>
-          <h4>{{ c.title }}</h4>
-          <p>{{ c.desc }}</p>
-        </div>
-      }
+        <button class="btn-notif-action" routerLink="/campagnes">Réserver maintenant</button>
+      </div>
     </div>
   </section>
 
@@ -91,9 +66,7 @@
 
   <section class="importation-section">
     <div class="container">
-      <div class="section-header">
-        <h2 class="title-green">Nos Campagnes</h2>
-      </div>
+      <h2 class="title-green">Nos Campagnes</h2>
 
       <div class="importation-grid">
         <div *ngFor="let item of importations.slice(0, 6)" class="import-card">
@@ -109,7 +82,7 @@
               <div class="info-item">Prix : <span>{{ item.unit_price | number }} CFA</span></div>
               <div class="info-item">Date Limite : <span>{{ item.deadline_at | date:'dd MMMM yyyy' }}</span></div>
             </div>
-            <button class="btn-detail-green" (click)="showAnimalDescription(item)">Détail</button>
+            <button class="btn-detail-green" [routerLink]="['/campagnes', item.id]">Détail</button>
           </div>
         </div>
       </div>
@@ -147,37 +120,6 @@
     </div>
   </section>
 
-  <section class="faq-section" id="faq">
-    <div class="container">
-      <h2 class="faq-title">Foire aux questions</h2>
-      <div class="faq-flex-container">
-        <div class="faq-block">
-          <div class="faq-list">
-            <div *ngFor="let f of faqs" class="faq-item">
-              <div class="faq-question">?</div>
-              <h4>{{ f.question }}</h4>
-              <p>{{ f.answer }}</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-block">
-          <div class="faq-contact-card">
-            <h3>Une autre question ?</h3>
-            <p>Posez-la nous directement via ce formulaire.</p>
-            <form (submit)="$event.preventDefault(); onContactSubmit()">
-              <input type="text" placeholder="Votre nom complet">
-              <input type="email" placeholder="votre@email.com">
-              <input type="text" placeholder="Sujet de votre demande">
-              <textarea placeholder="Votre message ou votre question spécifique..."></textarea>
-              <button type="submit" class="btn-submit-question">Envoyer ma question</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <footer class="footer-anipl">
     <div class="footer-content">
       <div class="footer-brand">
@@ -200,7 +142,6 @@
       <div class="footer-column">
         <h3>Aide & Support</h3>
         <ul>
-          <li>FAQ</li>
           <li>Contactez-nous</li>
           <li>Mentions légales</li>
         </ul>
@@ -222,28 +163,4 @@
       </div>
     </div>
   </footer>
-
-  <!-- Modal pour les détails de l'animal -->
-  @if (selectedAnimal) {
-  <div class="animal-modal-overlay" (click)="closeDetail()">
-    <div class="animal-modal-card animate-in" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <h3>Détails de la race</h3>
-        <button class="close-btn" (click)="closeDetail()">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="modal-title">{{ selectedAnimal.title }}</div>
-        <img [src]="selectedAnimal.image_url" alt="Animal Image">
-        <div class="modal-info">
-          <p><strong>Origine :</strong> France</p>
-          <p><strong>Prix :</strong> {{ selectedAnimal.unit_price | number }} FCFA</p>
-          <div class="description-box">
-            <p>{{ selectedAnimal.description }}</p>
-          </div>
-          <button class="btn-primary w-100" style="margin-top: 20px;" [routerLink]="['/campagnes']" (click)="closeDetail()">Commander maintenant</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  }
 </div>

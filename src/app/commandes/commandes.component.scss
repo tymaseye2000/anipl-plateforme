@@ -1,0 +1,195 @@
+@use 'sass:color';
+
+$anipl-green: #00663d;
+$anipl-light-green: #e1f2eb;
+$bg-light: #f4fbf8;
+$text-dark: #2c3e50;
+$text-muted: #7f8c8d;
+$white: #ffffff;
+$danger: #e74c3c;
+$success: #2ecc71;
+$warning: #f1c40f;
+
+.admin-container {
+  padding: 2rem;
+  background-color: $bg-light;
+  min-height: 100vh;
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  h1 { color: $anipl-green; font-size: 1.8rem; margin: 0; font-weight: 700; }
+  p { color: $text-muted; margin: 0.5rem 0 0; font-size: 0.95rem; }
+}
+
+.btn-new {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: $anipl-green;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  &:hover { background-color: color.adjust($anipl-green, $lightness: -5%); transform: translateY(-2px); }
+}
+
+.card-table {
+  background: $white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+
+  .table-tools {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      max-width: 400px;
+      span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: $text-muted; }
+      input {
+        width: 100%;
+        padding: 10px 10px 10px 40px;
+        border: 1px solid #edf2f7;
+        border-radius: 8px;
+        background: #f8fafc;
+        outline: none;
+        &:focus { border-color: $anipl-green; background: white; }
+      }
+    }
+
+    .filters select {
+      padding: 10px 15px;
+      border: 1px solid #edf2f7;
+      border-radius: 8px;
+      background: #f8fafc;
+      outline: none;
+      cursor: pointer;
+    }
+  }
+}
+
+.anipl-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    text-align: left;
+    padding: 1rem;
+    color: $text-muted;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    border-bottom: 2px solid #f1f5f9;
+  }
+
+  td { padding: 1.25rem 1rem; border-bottom: 1px solid #f1f5f9; vertical-align: middle; color: $text-dark; }
+
+  .status-badge {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    
+    &.en-attente { background: rgba($warning, 0.12); color: color.adjust($warning, $lightness: -15%); }
+    &.validee { background: rgba($success, 0.12); color: $success; }
+    &.rejetee { background: rgba($danger, 0.12); color: $danger; }
+  }
+
+  .actions {
+    display: flex;
+    gap: 8px;
+
+    .btn-icon {
+      background: none; border: none; color: $text-muted; cursor: pointer; padding: 8px; border-radius: 6px; transition: 0.2s;
+      display: flex; align-items: center;
+
+      &:hover { background: #f1f5f9; color: $anipl-green; }
+      &.success:hover { background: rgba($success, 0.1); color: $success; }
+      &.delete:hover { background: #fee2e2; color: $danger; }
+    }
+  }
+}
+
+// Styles spécifiques au formulaire de la modale
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 20px;
+  overflow: hidden;
+  animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-header {
+  padding: 1.5rem;
+  background: $anipl-green;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h3 { margin: 0; }
+  .close-btn { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+}
+
+.admin-form {
+  padding: 2rem;
+  .form-group {
+    margin-bottom: 1.5rem;
+    label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: $text-dark; }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      outline: none;
+      &:focus { border-color: $anipl-green; }
+    }
+  }
+  .btn-submit {
+    width: 100%;
+    padding: 14px;
+    background: $anipl-green;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    &:hover { background: color.adjust($anipl-green, $lightness: -5%); }
+  }
+}
+
+tr:hover td { background-color: rgba($anipl-green, 0.01); }

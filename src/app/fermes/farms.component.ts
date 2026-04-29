@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 export interface Farm {
   name: string;
@@ -13,11 +14,12 @@ export interface Farm {
 @Component({
   selector: 'app-farms',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive],
   templateUrl: './farms.component.html',
   styleUrl: './farms.component.scss'
 })
 export class FarmsComponent {
+  isSidebarCollapsed = false;
   protected readonly isModalOpen = signal(false);
 
   protected readonly farms = signal<Farm[]>([
@@ -27,6 +29,10 @@ export class FarmsComponent {
   ]);
 
   protected newFarm: Partial<Farm> = this.getDefaultFarm();
+
+  toggleSidebar() {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
 
   openModal() {
     this.isModalOpen.set(true);

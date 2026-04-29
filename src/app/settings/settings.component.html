@@ -1,0 +1,86 @@
+<div class="admin-container">
+  <div class="admin-header">
+    <div class="title-section">
+      <h1>Paramètres</h1>
+      <p>Gérez vos informations personnelles et les préférences de votre compte</p>
+    </div>
+  </div>
+
+  <div class="settings-grid">
+    <!-- Section Profil -->
+    <div class="card-table settings-card">
+      <div class="card-header">
+        <span class="material-symbols-outlined">person</span>
+        <h2>Informations du profil</h2>
+      </div>
+      <form class="admin-form" (submit)="onUpdateProfile($event)">
+        <div class="form-group">
+          <label>Nom complet</label>
+          <input type="text" name="name" [(ngModel)]="userProfile().name">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" [(ngModel)]="userProfile().email">
+        </div>
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input type="tel" name="phone" [(ngModel)]="userProfile().phone">
+        </div>
+        <button type="submit" class="btn-submit">Mettre à jour le profil</button>
+      </form>
+    </div>
+
+    <!-- Section Sécurité -->
+    <div class="card-table settings-card">
+      <div class="card-header">
+        <span class="material-symbols-outlined">lock</span>
+        <h2>Sécurité</h2>
+      </div>
+      <form class="admin-form" (submit)="onChangePassword($event)">
+        <div class="form-group">
+          <label>Ancien mot de passe</label>
+          <input type="password" name="oldPass" placeholder="••••••••">
+        </div>
+        <div class="form-group">
+          <label>Nouveau mot de passe</label>
+          <input type="password" name="newPass" placeholder="••••••••">
+        </div>
+        <div class="form-group">
+          <label>Confirmer le mot de passe</label>
+          <input type="password" name="confirmPass" placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn-submit">Changer le mot de passe</button>
+      </form>
+    </div>
+
+    <!-- Section Notifications -->
+    <div class="card-table settings-card">
+      <div class="card-header">
+        <span class="material-symbols-outlined">notifications</span>
+        <h2>Préférences de notification</h2>
+      </div>
+      <div class="notifications-list">
+        <div class="notif-item">
+          <div class="notif-text">
+            <strong>Alertes par email</strong>
+            <p>Recevoir un récapitulatif quotidien de la production</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" [(ngModel)]="notifications().emailAlerts">
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <div class="notif-item">
+          <div class="notif-text">
+            <strong>Mises à jour des commandes</strong>
+            <p>Notifier lors de la validation d'une adhésion</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" [(ngModel)]="notifications().orderUpdates">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

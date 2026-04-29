@@ -1,5 +1,5 @@
-<div class="dashboard-layout" [class.collapsed]="isSidebarCollapsed">
-  <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
+<div class="dashboard-layout" [class.collapsed]="isSidebarCollapsed()">
+  <aside class="sidebar" [class.collapsed]="isSidebarCollapsed()">
     <div class="brand-section">
       <img src="/logo.png" alt="ANIPL Logo">
       <div class="brand-text">
@@ -10,17 +10,17 @@
 
     <nav class="sidebar-menu">
       <div class="menu-label"><span>Menu</span> <span class="menu-toggle material-symbols-outlined" (click)="toggleSidebar()">menu</span></div>
-      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><span class="material-symbols-outlined">dashboard</span> Tableau de bord</a>
-      <a routerLink="/users" routerLinkActive="active"><span class="material-symbols-outlined">group</span> Utilisateurs</a>
-      <a routerLink="/farms" routerLinkActive="active"><span class="material-symbols-outlined">agriculture</span> Fermes</a>
-      <a routerLink="/dashboard/breeders" routerLinkActive="active"><span class="material-symbols-outlined">person_apron</span> Éleveurs</a>
-      <a routerLink="/dashboard/animals" routerLinkActive="active"><span class="material-symbols-outlined">pets</span> Animaux</a>
-      <a routerLink="/campagnes" routerLinkActive="active"><span class="material-symbols-outlined">event_repeat</span> Campagnes</a>
-      <a routerLink="/dashboard/orders" routerLinkActive="active"><span class="material-symbols-outlined">shopping_cart</span> Commandes</a>
-      <a routerLink="/milk-production" routerLinkActive="active"><span class="material-symbols-outlined">monitoring</span> Production laitière</a>
-      <a routerLink="/animal-health" routerLinkActive="active"><span class="material-symbols-outlined">health_and_safety</span> Santé animale</a>
-      <a routerLink="/payments" routerLinkActive="active"><span class="material-symbols-outlined">payments</span> Paiements</a>
-      <a routerLink="/settings" routerLinkActive="active"><span class="material-symbols-outlined">settings</span> Paramètres</a>
+      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><span class="material-symbols-outlined">dashboard</span> <span>Tableau de bord</span></a>
+      <a routerLink="/dashboard/users" routerLinkActive="active"><span class="material-symbols-outlined">group</span> <span>Utilisateurs</span></a>
+      <a routerLink="/dashboard/farms" routerLinkActive="active"><span class="material-symbols-outlined">agriculture</span> <span>Fermes</span></a>
+      <a routerLink="/dashboard/eleveurs" routerLinkActive="active"><span class="material-symbols-outlined">person_apron</span> <span>Éleveurs</span></a>
+      <a routerLink="/dashboard/animaux" routerLinkActive="active"><span class="material-symbols-outlined">pets</span> <span>Animaux</span></a>
+      <a routerLink="/dashboard/campagnes" routerLinkActive="active"><span class="material-symbols-outlined">event_repeat</span> <span>Campagnes</span></a>
+      <a routerLink="/dashboard/orders" routerLinkActive="active"><span class="material-symbols-outlined">shopping_cart</span> <span>Commandes</span></a>
+      <a routerLink="/dashboard/production-laitiere" routerLinkActive="active"><span class="material-symbols-outlined">monitoring</span> <span>Production laitière</span></a>
+      <a routerLink="/dashboard/sante-animale" routerLinkActive="active"><span class="material-symbols-outlined">health_and_safety</span> <span>Santé animale</span></a>
+      <a routerLink="/dashboard/paiements" routerLinkActive="active"><span class="material-symbols-outlined">payments</span> <span>Paiements</span></a>
+      <a routerLink="/dashboard/settings" routerLinkActive="active"><span class="material-symbols-outlined">settings</span> <span>Paramètres</span></a>
     </nav>
     <div class="menu">
       <a routerLink="/login" class="logout-link"><span class="material-symbols-outlined">logout</span> Se déconnecter</a>
@@ -30,7 +30,7 @@
   <main class="main-content">
     <header class="top-header">
       <div class="chip farm-chip">Ferme : ANIPL</div>
-      <div class="chip date-chip"><span class="material-symbols-outlined">calendar_today</span> {{ currentDate | date: 'dd MMMM yyyy HH:mm:ss' }}</div>
+      <div class="chip date-chip"><span class="material-symbols-outlined">calendar_today</span> {{ currentDate() | date: 'dd MMMM yyyy HH:mm:ss' }}</div>
       <div class="user-profile">
         <div class="avatar">M</div>
         <span class="username">Modou Ndiaye</span>
@@ -39,71 +39,84 @@
     </header>
 
     <div class="content-body">
-      <div class="section-title">
-        <h2>Vue d'ensemble</h2>
-        <select class="year-select"><option>2026</option></select>
-      </div>
+      @if (router.url === '/dashboard') {
+        <div class="section-title">
+          <h2>Vue d'ensemble</h2>
+          <select class="year-select"><option>2026</option></select>
+        </div>
 
-      <div class="stats-grid">
-        <div class="stat-card highlight">
-          <div class="stat-info"><label>Bovin</label><div class="stat-value">12 000 000</div></div>
-          <div class="stat-icon"><span class="material-symbols-outlined">pets</span></div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-info"><label>Fermes</label><div class="stat-value">45 000</div></div>
-          <div class="stat-icon icon-bg-green"><span class="material-symbols-outlined">agriculture</span></div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-info"><label>Campagnes</label><div class="stat-value">120</div></div>
-          <div class="stat-icon icon-bg-yellow"><span class="material-symbols-outlined">event_available</span></div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-info"><label>Lait</label><div class="stat-value">102 000 l</div></div>
-          <div class="stat-icon icon-bg-blue"><span class="material-symbols-outlined">opacity</span></div>
-        </div>
-      </div>
-
-      <div class="map-container">
-        <div class="map-header">
-          <div class="map-title"><span class="material-symbols-outlined">location_on</span> Ma carte</div>
-          <div class="map-controls">
-            <input type="text" placeholder="Rechercher..." class="search-input">
-            <select (change)="updateStats($any($event.target).value)">
-              <option value="Dakar">Dakar</option>
-              <option value="Thiès">Thiès</option>
-              <option value="Saint-Louis">Saint-Louis</option>
-            </select>
+        <div class="stats-grid">
+          <div class="stat-card highlight">
+            <div class="stat-info"><label>Bovin</label><div class="stat-value">12 000 000</div></div>
+            <div class="stat-icon"><span class="material-symbols-outlined">pets</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-info"><label>Fermes</label><div class="stat-value">45 000</div></div>
+            <div class="stat-icon icon-bg-green"><span class="material-symbols-outlined">agriculture</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-info"><label>Campagnes</label><div class="stat-value">120</div></div>
+            <div class="stat-icon icon-bg-yellow"><span class="material-symbols-outlined">event_available</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-info"><label>Lait</label><div class="stat-value">102 000 l</div></div>
+            <div class="stat-icon icon-bg-blue"><span class="material-symbols-outlined">opacity</span></div>
           </div>
         </div>
 
-        <div class="map-content">
-          <div class="map-results">
-            <div class="result-header">
-              <span class="result-icon material-symbols-outlined">query_stats</span>
-              <div class="result-text"><strong>Résultat : {{ selectedRegion }}</strong><small>Données centralisées ANIPL</small></div>
-            </div>
-            <div class="result-item"><span class="dot blue"></span> Fermes <span>{{ stats.fermes | number }}</span></div>
-            <div class="result-item"><span class="dot green"></span> Éleveurs <span>{{ stats.eleveurs | number }}</span></div>
-            <div class="result-item"><span class="dot orange"></span> Animaux <span>{{ stats.animaux | number }}</span></div>
+        <div class="map-container">
+          <div class="map-header">
+            <div class="map-title"><span class="material-symbols-outlined">location_on</span> Ma carte</div>
           </div>
-
-          <div class="map-visual">
-            <svg viewBox="0 0 800 600" class="senegal-svg">
-              <path d="M 20,280 L 40,270 L 55,290 L 35,305 Z" (click)="updateStats('Dakar')" (mouseenter)="onMouseEnter('Dakar')" (mouseleave)="onMouseLeave()" [class.active]="selectedRegion === 'Dakar'"></path>
-              <path d="M 40,270 L 110,230 L 135,300 L 55,290 Z" (click)="updateStats('Thiès')" (mouseenter)="onMouseEnter('Thiès')" (mouseleave)="onMouseLeave()" [class.active]="selectedRegion === 'Thiès'"></path>
-              <path d="M 110,230 L 280,40 L 480,100 L 380,260 L 135,300 Z" (click)="updateStats('Saint-Louis')" (mouseenter)="onMouseEnter('Saint-Louis')" (mouseleave)="onMouseLeave()" [class.active]="selectedRegion === 'Saint-Louis'"></path>
-              <path d="M 20,280 L 280,40 L 680,150 L 780,350 L 780,550 L 380,580 L 110,500 L 20,280" fill="none" stroke="#ccc" stroke-width="1"></path>
-            </svg>
-            @if (hoveredRegion && hoveredStats) {
-              <div class="map-tooltip">
-                <strong>{{ hoveredRegion }}</strong><br>
-                <span>🚜 Fermes: {{ hoveredStats.fermes }}</span><br>
-                <span>🐄 Animaux: {{ hoveredStats.animaux }}</span>
+          <div class="map-content">
+            <div class="map-results">
+              <div class="result-header">
+                <span class="result-icon material-symbols-outlined">query_stats</span>
+                <div class="result-text"><strong>Situation : {{ selectedRegion() || 'Tout le Sénégal' }}</strong></div>
               </div>
-            }
+              <div class="result-item"><span class="dot blue"></span> Fermes <span>{{ stats().fermes | number }}</span></div>
+              <div class="result-item"><span class="dot green"></span> Éleveurs <span>{{ stats().eleveurs | number }}</span></div>
+              <div class="result-item"><span class="dot orange"></span> Animaux <span>{{ stats().animaux | number }}</span></div>
+            </div>
+
+            <div class="map-visual" style="position: relative;" (mousemove)="trackMouse($event)">
+              <svg viewBox="0 0 800 600" class="senegal-svg" style="width: 100%; height: auto;">
+                <path d="M 20,280 L 40,270 L 55,290 L 35,305 Z" (click)="updateStats('Dakar')" (mouseenter)="onMouseEnter('Dakar')" (mouseleave)="onMouseLeave()" [attr.fill]="selectedRegion() === 'Dakar' ? 'var(--primary)' : '#e1f2eb'" stroke="white" style="cursor:pointer"></path>
+                <path d="M 40,270 L 110,230 L 135,300 L 55,290 Z" (click)="updateStats('Thiès')" (mouseenter)="onMouseEnter('Thiès')" (mouseleave)="onMouseLeave()" [attr.fill]="selectedRegion() === 'Thiès' ? 'var(--primary)' : '#e1f2eb'" stroke="white" style="cursor:pointer"></path>
+                <path d="M 110,230 L 280,40 L 480,100 L 380,260 L 135,300 Z" (click)="updateStats('Saint-Louis')" (mouseenter)="onMouseEnter('Saint-Louis')" (mouseleave)="onMouseLeave()" [attr.fill]="selectedRegion() === 'Saint-Louis' ? 'var(--primary)' : '#e1f2eb'" stroke="white" style="cursor:pointer"></path>
+                <path d="M 135,300 L 380,260 L 400,350 L 150,380 Z" (click)="updateStats('Louga')" (mouseenter)="onMouseEnter('Louga')" (mouseleave)="onMouseLeave()" [attr.fill]="selectedRegion() === 'Louga' ? 'var(--primary)' : '#e1f2eb'" stroke="white" style="cursor:pointer"></path>
+                <path d="M 150,380 L 400,350 L 380,450 L 180,480 Z" (click)="updateStats('Diourbel')" (mouseenter)="onMouseEnter('Diourbel')" (mouseleave)="onMouseLeave()" [attr.fill]="selectedRegion() === 'Diourbel' ? 'var(--primary)' : '#e1f2eb'" stroke="white" style="cursor:pointer"></path>
+
+                <!-- Étiquettes des régions -->
+                <text x="35" y="295" class="region-label" [class.active]="selectedRegion() === 'Dakar'">Dakar</text>
+                <text x="85" y="275" class="region-label" [class.active]="selectedRegion() === 'Thiès'">Thiès</text>
+                <text x="270" y="180" class="region-label" [class.active]="selectedRegion() === 'Saint-Louis'">Saint-Louis</text>
+                <text x="260" y="325" class="region-label" [class.active]="selectedRegion() === 'Louga'">Louga</text>
+                <text x="275" y="415" class="region-label" [class.active]="selectedRegion() === 'Diourbel'">Diourbel</text>
+              </svg>
+
+              <!-- Infobulle flottante -->
+              @if (hoveredRegion() && hoveredStats()) {
+                <div class="map-tooltip" [style.left.px]="mouseX" [style.top.px]="mouseY">
+                  <div class="tooltip-header">{{ hoveredRegion() }}</div>
+                  <div class="tooltip-content">
+                    <div class="tooltip-stat">
+                      <span class="dot blue"></span> Fermes: <strong>{{ hoveredStats()?.fermes | number }}</strong>
+                    </div>
+                    <div class="tooltip-stat">
+                      <span class="dot green"></span> Éleveurs: <strong>{{ hoveredStats()?.eleveurs | number }}</strong>
+                    </div>
+                    <div class="tooltip-stat">
+                      <span class="dot orange"></span> Animaux: <strong>{{ hoveredStats()?.animaux | number }}</strong>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
           </div>
         </div>
-      </div>
+      }
+      <router-outlet></router-outlet>
     </div>
   </main>
 </div>

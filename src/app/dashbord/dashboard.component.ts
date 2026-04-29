@@ -1,29 +1,31 @@
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, inject, OnInit, OnDestroy, signal } from '@angular/core';
+import { RouterLink, RouterLinkActive, Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DashboardService, RegionStats } from './dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, CommonModule],
+  imports: [RouterLink, RouterLinkActive, RouterOutlet, CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   private dashboardService = inject(DashboardService);
-  private timerId: any;
+  protected router = inject(Router);
+  private timerId?: ReturnType<typeof setInterval>;
 
-  protected isSidebarCollapsed = false;
-  protected currentDate: Date = new Date();
-  protected selectedRegion = 'Dakar';
-  protected stats: RegionStats = { fermes: 0, eleveurs: 0, animaux: 0 };
-  protected hoveredRegion: string | null = null;
-  protected hoveredStats: RegionStats | null = null;
+  protected isSidebarCollapsed = signal(false);
+  protected currentDate = signal(new Date());
+  
+  protected selectedRegion = signal('Dakar');
+  protected stats = signal<RegionStats>({ fermes: 0, eleveurs: 0, animaux: 0 });
+  protected hoveredRegion = signal<string | null>(null);
+  protected hoveredStats = signal<RegionStats | null>(null);
 
   ngOnInit(): void {
     this.updateStats();
-    this.timerId = setInterval(() => this.currentDate = new Date(), 1000);
+    this.timerId = setInterval(() => this.currentDate.set(new Date()), 1000);
   }
 
   ngOnDestroy(): void {
@@ -31,25 +33,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   protected toggleSidebar(): void {
-    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+    this.isSidebarCollapsed.update(collapsed => !collapsed);
   }
 
   protected updateStats(region?: string): void {
-    if (region) this.selectedRegion = region;
-    this.dashboardService.getStatsByRegion(this.selectedRegion).subscribe(data => {
-      this.stats = data;
+    if (region) this.selectedRegion.set(region);
+    this.dashboardService.getStatsByRegion(this.selectedRegion()).subscribe(data => {
+      this.stats.set(data);
     });
   }
 
   protected onMouseEnter(region: string): void {
-    this.hoveredRegion = region;
+    this.hoveredRegion.set(region);
     this.dashboardService.getStatsByRegion(region).subscribe(data => {
-      this.hoveredStats = data;
+      this.hoveredStats.set(data);
     });
   }
 
   protected onMouseLeave(): void {
-    this.hoveredRegion = null;
-    this.hoveredStats = null;
+    this.hoveredRegion.set(null);
+    this.hoveredStats.set(null);
   }
 }

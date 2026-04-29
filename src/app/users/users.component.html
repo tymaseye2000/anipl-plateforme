@@ -1,75 +1,68 @@
-<div class="users-container">
-  <div class="users-header">
-    <div class="header-title">
-      <h2>Gestion des Utilisateurs</h2>
-      <p>Administrez les accès et les rôles des membres de l'ANIPL</p>
-    </div>
-    <button class="btn-add" (click)="openModal()">
-      <span class="material-symbols-outlined">person_add</span>
-      Nouvel Utilisateur
-    </button>
-  </div>
+<div class="admin-container">
+      <div class="admin-header">
+        <div class="title-section">
+          <h1>Utilisateurs</h1>
+          <p>Gérez les accès des administrateurs et des éleveurs de l'ANIPL</p>
+        </div>
+        <button class="btn-new" (click)="openModal()">
+          <span class="material-symbols-outlined">person_add</span>
+          Ajouter un utilisateur
+        </button>
+      </div>
 
-  <div class="users-card">
-    <div class="table-actions">
-      <div class="search-box">
-        <span class="material-symbols-outlined">search</span>
-        <input type="text" placeholder="Rechercher un utilisateur...">
+      <div class="card-table">
+        <table class="anipl-table">
+          <thead>
+            <tr>
+              <th>Photo</th>
+              <th>Nom Complet</th>
+              <th>Rôle</th>
+              <th>Email</th>
+              <th>Statut</th>
+              <th>Dernière connexion</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (user of users(); track user.email) {
+              <tr>
+                <td><div class="user-avatar-small">{{ user.name.slice(0, 2).toUpperCase() }}</div></td>
+                <td><strong>{{ user.name }}</strong></td>
+                <td><span class="badge" [class.admin]="user.role === 'Administrateur'" [class.user]="user.role !== 'Administrateur'">{{ user.role }}</span></td>
+                <td>{{ user.email }}</td>
+                <td><span class="status-badge" [class.actif]="user.status === 'Actif'" [class.inactif]="user.status === 'Inactif'">{{ user.status }}</span></td>
+                <td>{{ user.dateAdded | date:'medium' }}</td>
+                <td>
+                  <button class="btn-icon" (click)="editUser(user)">
+                    <span class="material-symbols-outlined">edit</span>
+                  </button>
+                  <button class="btn-icon delete" (click)="deleteUser(user.email)">
+                    <span class="material-symbols-outlined">delete</span>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <table class="users-table">
-      <thead>
-        <tr>
-          <th>Utilisateur</th>
-          <th>Rôle</th>
-          <th>Statut</th>
-          <th>Date d'ajout</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (user of users; track user.email) {
-          <tr>
-            <td>
-              <div class="user-info">
-                <div class="user-avatar">{{ user.name.charAt(0) }}</div>
-                <div class="user-details">
-                  <strong>{{ user.name }}</strong>
-                  <span>{{ user.email }}</span>
-                </div>
-              </div>
-            </td>
-            <td><span class="role-text">{{ user.role }}</span></td>
-            <td><span class="status-badge" [class]="user.status.toLowerCase()">{{ user.status }}</span></td>
-            <td>{{ user.dateAdded | date:'dd/MM/yyyy' }}</td>
-            <td class="actions">
-              <button class="icon-btn edit"><span class="material-symbols-outlined">edit</span></button>
-              <button class="icon-btn delete"><span class="material-symbols-outlined">delete</span></button>
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- Modal Enregistrement -->
-@if (isModalOpen) {
+<!-- Modal Utilisateur -->
+@if (isModalOpen()) {
   <div class="modal-overlay" (click)="closeModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <div class="modal-header">
-        <h3>Ajouter un utilisateur</h3>
+        <h3>{{ isEditing() ? 'Modifier l\'utilisateur' : 'Nouvel utilisateur' }}</h3>
         <button class="close-btn" (click)="closeModal()">&times;</button>
       </div>
       <form class="user-form" (submit)="onSubmit($event)">
         <div class="form-group">
-          <label>Nom complet</label>
-          <input type="text" name="name" [(ngModel)]="newUser.name" placeholder="Ex: Fatou Sow" required>
+          <label>Nom Complet</label>
+          <input type="text" name="name" [(ngModel)]="newUser.name" placeholder="Ex: Modou Ndiaye" required>
         </div>
         <div class="form-group">
-          <label>Email professionnel</label>
-          <input type="email" name="email" [(ngModel)]="newUser.email" placeholder="fatou@anipl.sn" required>
+          <label>Email</label>
+          <input type="email" name="email" [(ngModel)]="newUser.email" placeholder="email@anipl.sn" required [disabled]="isEditing()">
         </div>
         <div class="form-group">
           <label>Rôle</label>
@@ -79,7 +72,7 @@
             <option value="Agent de Suivi">Agent de Suivi</option>
           </select>
         </div>
-        <button type="submit" class="btn-submit">Enregistrer l'accès</button>
+        <button type="submit" class="btn-submit">{{ isEditing() ? 'Enregistrer les modifications' : 'Créer l\'utilisateur' }}</button>
       </form>
     </div>
   </div>

@@ -1,0 +1,85 @@
+<div class="admin-container">
+  <div class="admin-header">
+    <div class="title-section">
+      <h1>Santé Animale</h1>
+      <p>Gestion du carnet de santé numérique et suivi vétérinaire</p>
+    </div>
+    <button class="btn-new" (click)="openModal()">
+      <span class="material-symbols-outlined">medical_services</span>
+      Ajouter une intervention
+    </button>
+  </div>
+
+  <div class="card-table">
+    <div class="table-tools">
+      <div class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" placeholder="Rechercher par ID animal, vétérinaire ou soin...">
+      </div>
+    </div>
+
+    <table class="anipl-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>ID Animal</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Vétérinaire</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (record of filteredRecords(); track record.id) {
+          <tr>
+            <td>{{ record.date | date:'dd/MM/yyyy' }}</td>
+            <td><span class="animal-tag">{{ record.animalId }}</span></td>
+            <td><span class="type-badge" [ngClass]="record.interventionType.toLowerCase()">{{ record.interventionType }}</span></td>
+            <td>{{ record.description }}</td>
+            <td>Dr. {{ record.veterinary }}</td>
+            <td><span class="status-dot" [class.done]="record.status === 'Terminé'"></span> {{ record.status }}</td>
+            <td class="actions">
+              <button class="btn-icon" title="Détails"><span class="material-symbols-outlined">description</span></button>
+              <button class="btn-icon delete" (click)="deleteRecord(record.id)" title="Supprimer"><span class="material-symbols-outlined">delete</span></button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal Intervention -->
+@if (isModalOpen()) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Nouvelle Intervention</h3>
+        <button class="close-btn" (click)="closeModal()">&times;</button>
+      </div>
+      <form class="admin-form" (submit)="onSubmit($event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>ID de l'animal</label>
+            <input type="text" name="animal" [(ngModel)]="newRecord.animalId" placeholder="Ex: BOV-001" required>
+          </div>
+          <div class="form-group">
+            <label>Type de soin</label>
+            <select name="type" [(ngModel)]="newRecord.interventionType">
+              <option value="Vaccination">Vaccination</option>
+              <option value="Traitement">Traitement</option>
+              <option value="Examen">Examen</option>
+              <option value="Urgence">Urgence</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Détails de l'intervention</label>
+          <textarea name="desc" [(ngModel)]="newRecord.description" placeholder="Description des soins prodigués..." required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Enregistrer l'acte</button>
+      </form>
+    </div>
+  </div>
+}

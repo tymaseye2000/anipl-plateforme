@@ -30,34 +30,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  // Section Statistiques (Image 2)
-  stats: HomeStat[] = [
-    { icon: '🐄', value: '100 %', label: 'Traçabilité des animaux', desc: 'Chaque animal est identifié, suivi et historisé.' },
-    { icon: '⏱️', value: '-60 %', label: 'Réduction du temps de gestion', desc: 'Automatisation des tâches administratives.' },
-    { icon: '🚚', value: '90 %', label: 'Suivi des campagnes d\'importation', desc: 'Suivi en temps réel des arrivées.' },
-    { icon: '🏥', value: '100 %', label: 'Suivi sanitaire des animaux', desc: 'Vaccinations et historique médical enregistrés.' },
-    { icon: '🥛', value: '+35 %', label: 'Production laitière optimisée', desc: 'Analyse précise des performances par animal.' },
-    { icon: '🌐', value: '24h/24 – 7j/7', label: 'Accès à la plateforme', desc: 'Disponible à tout moment sur web et mobile.' }
-  ];
-
-  // Section Défis (Images 3 & 4)
-  challenges = [
-    { id: '01', title: 'Manque de traçabilité', desc: 'Impossible de suivre l\'origine et les mouvements.' },
-    { id: '02', title: 'Difficultés des campagnes', desc: 'Opérations d\'importation difficiles à organiser.' },
-    { id: '03', title: 'Erreurs de commandes', desc: 'Commandes mal enregistrées entraînant des pertes.' },
-    { id: '04', title: 'Mauvaise visibilité production', desc: 'Difficulté à analyser les performances laitières.' },
-    { id: '05', title: 'Suivi santé complexe', desc: 'Informations sanitaires non centralisées.' },
-    { id: '06', title: 'Prise de décision lente', desc: 'Manque de données fiables pour la stratégie.' }
-  ];
-
-  // Section FAQ
-  faqs = [
-    { question: "Comment s'inscrire sur ANIPL ?", answer: "C'est très simple ! Cliquez sur le bouton 'S'inscrire' en haut à droite, remplissez vos informations professionnelles et vous recevrez un accès immédiat à votre tableau de bord." },
-    { question: "Quels types d'animaux puis-je gérer ?", answer: "ANIPL est spécialisée dans l'intensification de la production laitière. Vous pouvez gérer vos vaches laitières, génisses et suivre l'historique complet de chaque tête de bétail." },
-    { question: "Est-ce que mes données sont sécurisées ?", answer: "La sécurité est notre priorité. Toutes vos données d'élevage sont cryptées et stockées sur des serveurs sécurisés, accessibles uniquement par vous." },
-    { question: "Proposez-vous un accompagnement terrain ?", answer: "Oui, l'ANIPL collabore étroitement avec les conseillers agricoles pour vous aider à interpréter vos résultats et optimiser votre production." }
-  ];
-
   // Section Fonctionnalités (Image 5)
   features = [
     { icon: 'pets', title: 'Gestion des animaux', desc: 'Enregistrez chaque animal avec un identifiant unique.' },
@@ -71,18 +43,8 @@ export class HomeComponent implements OnInit {
   // Section Campagnes d'importation (Images 6 & 7)
   protected allImportations: Campaign[] = [];
 
-  selectedAnimal: Campaign | null = null;
-
   get importations() {
     return this.allImportations;
-  }
-
-  showAnimalDescription(animal: Campaign): void {
-    this.selectedAnimal = animal;
-  }
-
-  closeDetail(): void {
-    this.selectedAnimal = null;
   }
 
   // Section Témoignages (Image 8)
@@ -114,7 +76,7 @@ export class HomeComponent implements OnInit {
     this.allImportations = this.campaignService.getCampaigns();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   onContactSubmit(): void {
     console.log('Question envoyée !');

@@ -1,0 +1,83 @@
+<div class="admin-container">
+  <div class="admin-header">
+    <div class="title-section">
+      <h1>Gestion des Animaux</h1>
+      <p>Catalogue des bovins disponibles pour les membres de l'ANIPL</p>
+    </div>
+    <button class="btn-new" (click)="openAddAnimalModal()">
+      <span class="material-symbols-outlined">add_circle</span>
+      Ajouter un animal
+    </button>
+  </div>
+
+  <div class="catalogue-tools">
+    <div class="search-box">
+      <span class="material-symbols-outlined">search</span>
+      <input type="text" [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" placeholder="Rechercher par nom, race ou ID...">
+    </div>
+  </div>
+
+  <div class="animal-grid">
+    @for (animal of filteredCattle(); track animal.id) {
+      <div class="animal-card">
+        <div class="card-image">
+          <img [src]="animal.photoUrl" [alt]="animal.name">
+        </div>
+        <div class="card-content">
+          <div class="card-header">
+            <h3>{{ animal.name }} <small>({{ animal.id }})</small></h3>
+            <span class="status-dot" [ngClass]="getStatusClass(animal.status)" [title]="animal.status"></span>
+          </div>
+          <div class="animal-details">
+            <p><strong>Race :</strong> {{ animal.breed }}</p>
+            <p><strong>Âge :</strong> {{ animal.age }}</p>
+          </div>
+          <div class="card-footer">
+            <div class="actions">
+              <button class="btn-icon"><span class="material-symbols-outlined">visibility</span></button>
+              <button class="btn-icon"><span class="material-symbols-outlined">edit</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <span class="material-symbols-outlined">search_off</span>
+        <p>Aucun bovin ne correspond à votre recherche.</p>
+      </div>
+    }
+  </div>
+</div>
+
+<!-- Modal Ajout Animal -->
+@if (isModalOpen()) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Nouvel Animal</h3>
+        <button class="close-btn" (click)="closeModal()">&times;</button>
+      </div>
+      <form class="admin-form" (submit)="onSubmit($event)">
+        <div class="form-group">
+          <label>Nom de l'animal</label>
+          <input type="text" name="name" [(ngModel)]="newAnimal.name" required>
+        </div>
+        <div class="form-row" style="display: flex; gap: 15px;">
+          <div class="form-group" style="flex: 1;"><label>Race</label><input type="text" name="breed" [(ngModel)]="newAnimal.breed" required></div>
+          <div class="form-group" style="flex: 1;"><label>Âge</label><input type="text" name="age" [(ngModel)]="newAnimal.age"></div>
+        </div>
+        <div class="form-row" style="display: flex; gap: 15px;">
+          <div class="form-group" style="flex: 1;">
+            <label>Genre</label>
+            <select name="gender" [(ngModel)]="newAnimal.gender"><option value="Mâle">Mâle</option><option value="Femelle">Femelle</option></select>
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label>Statut</label>
+            <select name="status" [(ngModel)]="newAnimal.status"><option value="Disponible">Disponible</option><option value="Réservé">Réservé</option></select>
+          </div>
+        </div>
+        <button type="submit" class="btn-submit">Ajouter au catalogue</button>
+      </form>
+    </div>
+  </div>
+}
